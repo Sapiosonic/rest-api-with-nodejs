@@ -28,9 +28,17 @@ app.get('/products', (request, response) => {
 })
 
 app.post('/products', (request, response) => {
-    console.log(request.body)
+    const { name, price, quantity, active } = request.body
 
-    products.push(request.body)
+    if (!name) {
+        return response.sendStatus(422).json({ message: "Name is required!" })
+    }
+    products.push({
+        name,
+        price,
+        quantity,
+        active
+    })
 
     response.sendStatus(201).json({ message: 'Product created successfully!'})
 })
