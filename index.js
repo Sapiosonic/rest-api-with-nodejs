@@ -68,4 +68,32 @@ app.get('/products/:id', (request, response) => {
     response.status(200).json(product)
 })
 
+app.put('/products/:id', (request, response) => {
+    const product = products.find(product => product.id == request.params.id)
+
+    if (!product) {
+        return response.status(404).send({ message: 'Product not found!' }) 
+    }
+
+    const { name, price, quantity, active } = request.body
+
+    if (name) {
+        product.name = name
+    }
+
+    if (price) {
+        product.price = price
+    }
+
+    if (quantity) {
+        product.quantity = quantity
+    }
+
+    if ('active' in request.body) {
+        product.active = active
+    }
+
+    response.status(200).json({ message: 'Product updated successfully!' })
+})
+
 app.listen(3000, () => console.log('Server started on port 3000'))
