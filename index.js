@@ -96,4 +96,16 @@ app.put('/products/:id', (request, response) => {
     response.status(200).json({ message: 'Product updated successfully!' })
 })
 
+app.delete('/products/:id', (request, response) => {
+    const productIndex = products.findIndex(product => product.id == request.params.id)
+
+    if (productIndex == -1) {
+        return response.status(404).send({ message: 'Product not found!' }) 
+    }
+
+    products.splice(productIndex, 1)
+
+    response.status(200).json({ message: 'Product deleted successfully!' })
+})
+
 app.listen(3000, () => console.log('Server started on port 3000'))
